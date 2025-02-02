@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="card video-detail-card">
+  <h2>Video Detail</h2>
+  <p><strong>Prompt:</strong> {{ prompt }}</p>
+  
   <div class="tab-buttons">
     <button id="videoTab" class="tab-button active">Video</button>
     <button id="quizTab" class="tab-button">Quiz</button>
@@ -15,19 +18,37 @@
   
   <div id="quizContent" class="tab-content" style="display: none;">
     {% if quiz %}
-      {% for group, question in quiz.items() %}
-      <div class="quiz-question" data-group="{{ group }}" data-answer="{{ question['answer'] }}">
-        <p class="question-text">{{ question['question'] }}</p>
-        <div class="options">
-          {% set letters = ['a','b','c','d','e'] %}
-          {% for option in question['options'] %}
-            <button class="quiz-option" data-option="{{ option }}">
-              {{ letters[loop.index0] | upper }}. {{ option }}
-            </button>
-          {% endfor %}
-        </div>
-      </div>
-      {% endfor %}
+      {% if quiz.questions is defined %}
+        {# Quiz data is under a "questions" key which is a list #}
+        {% for question in quiz.questions %}
+          <div class="quiz-question" data-group="question{{ loop.index }}" data-answer="{{ question['answer'] }}">
+            <p class="question-text">{{ question['question'] }}</p>
+            <div class="options">
+              {% set letters = ['a','b','c','d','e'] %}
+              {% for option in question['options'] %}
+                <button class="quiz-option" data-option="{{ option }}">
+                  {{ letters[loop.index0] | upper }}. {{ option }}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        {# Quiz data is a dictionary with arbitrary keys (e.g., group1, group2, etc.) #}
+        {% for group, question in quiz.items() %}
+          <div class="quiz-question" data-group="{{ group }}" data-answer="{{ question['answer'] }}">
+            <p class="question-text">{{ question['question'] }}</p>
+            <div class="options">
+              {% set letters = ['a','b','c','d','e'] %}
+              {% for option in question['options'] %}
+                <button class="quiz-option" data-option="{{ option }}">
+                  {{ letters[loop.index0] | upper }}. {{ option }}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
     {% else %}
       <p>No quiz available for this video.</p>
     {% endif %}
@@ -49,9 +70,9 @@ function setCookie(name, value, days) {
 function getCookie(name) {
   var nameEQ = name + "=";
   var ca = document.cookie.split(';');
-  for(var i=0;i < ca.length;i++) {
+  for(var i = 0; i < ca.length; i++) {
     var c = ca[i];
-    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    while (c.charAt(0) == ' ') c = c.substring(1,c.length);
     if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
   }
   return null;
@@ -70,7 +91,7 @@ function loadQuizResults() {
           const correctAnswer = questionElem.getAttribute("data-answer");
           const options = questionElem.querySelectorAll(".quiz-option");
           options.forEach(optionElem => {
-            optionElem.disabled = true;
+            optionElem.disabled = true; // disable all options
             const optVal = optionElem.getAttribute("data-option");
             // Mark the selected answer:
             if (optVal === savedAnswer) {
@@ -80,7 +101,7 @@ function loadQuizResults() {
                 optionElem.classList.add("wrong");
               }
             }
-            // Always highlight the correct answer.
+            // Always highlight the correct option.
             if (optVal === correctAnswer) {
               optionElem.classList.add("correct");
             }
