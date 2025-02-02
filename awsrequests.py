@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-APIKEY = os.getenv("API_KEY")
+APIKEY = os.getenv("APIKEY")
 ACCESSKEY = os.getenv("ACCESSKEY")
 ELEVENLABS_APIKEY = os.getenv("ELEVENLABS_APIKEY")
 os.environ['ELEVENLABS_APIKEY'] = ELEVENLABS_APIKEY
