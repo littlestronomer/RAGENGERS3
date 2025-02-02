@@ -6,7 +6,7 @@
 conda create -n ragengers python=3.9
 conda activate ragengers
 conda install -c conda-forge boto3 ffmpeg python-dotenv botocore opencv fastapi uvicorn
-pip install elevenlabs pydub
+pip install elevenlabs pydub python-multipart
 ```
 
 `ffmpeg` is a crucial component of our project. To download it:
