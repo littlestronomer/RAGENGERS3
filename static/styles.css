@@ -1,0 +1,477 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f2f2f2;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Container class to center content and set a max-width */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Header styles */
+header {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 1rem 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+nav {
+  display: flex;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #dcdcdc;
+}
+
+/* Main content styles */
+main {
+  padding: 2rem 0;
+}
+
+/* Card style for forms and video details */
+.card {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+/* Form styles */
+.form-card {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #007BFF;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 3px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Error message styling */
+.error-message {
+  background-color: #ffcccc;
+  color: #cc0000;
+  padding: 0.5rem;
+  border: 1px solid #cc0000;
+  border-radius: 3px;
+  margin-bottom: 1rem;
+}
+
+/* Video list styles */
+.video-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.video-item {
+  background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 300px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.video-item:hover {
+  transform: translateY(-5px);
+}
+
+.video-item a {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+
+.video-preview {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.video-no-preview {
+  width: 100%;
+  height: 200px;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+.video-info {
+  padding: 1rem;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+/* Video detail card */
+.video-detail-card video {
+  border-radius: 5px;
+  margin-top: 1rem;
+}
+
+/* Footer styles */
+footer {
+  background-color: #007BFF;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 2rem;
+}
+
+/* Spinner overlay */
+.spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #007BFF;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  nav {
+    margin-top: 1rem;
+  }
+}
+
+.button-spinner {
+  border: 2px solid #fff;
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.tab-buttons {
+  margin-bottom: 1rem;
+}
+
+.tab-button {
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  background-color: #ddd;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.tab-button.active {
+  background-color: #007BFF;
+  color: #fff;
+}
+
+.quiz-question {
+  margin-bottom: 1.5rem;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.quiz-question .question-text {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.quiz-question .options button {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.quiz-question .options button.correct {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.quiz-question .options button.wrong {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+
+/* Ensure the options container is a flex column and occupies full width */
+.quiz-question .options {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* Force each quiz option button to display as a block and span the full width */
+.quiz-question .options button {
+  display: block !important;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 3px;
+  background-color: #f0f0f0;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Correct and wrong answer styles */
+.quiz-question .options button.correct {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.quiz-question .options button.wrong {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Ensure the options container is a flex column with spacing */
+.quiz-question .options {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* Style the quiz option buttons */
+.quiz-question .options button {
+  display: block !important;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 3px;
+  background-color: #f0f0f0;
+  text-align: left;
+  cursor: pointer;
+  color: black; /* Force text color to black */
+}
+
+/* For options marked as correct or wrong, keep text black */
+.quiz-question .options button.correct {
+  background-color: #28a745;
+  color: black !important;
+}
+
+.quiz-question .options button.wrong {
+  background-color: #dc3545;
+  color: black !important;
+}
+/* Ensure the entire page takes full height */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Make the main content area take all available vertical space */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The main container should expand to fill the space between header and footer */
+main.container {
+  flex: 1;
+}
+
+/* Footer styles - sticky at the bottom */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #007BFF;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* Optional: if you want to add some extra space on small screens */
+@media (max-width: 768px) {
+  footer {
+    font-size: 0.9rem;
+  }
+}
+/* Ensure the html and body take up the full viewport height */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* The main content can have a bottom margin so that it doesn’t get hidden behind the fixed footer */
+main {
+  margin-bottom: 60px;  /* adjust if your footer’s height changes */
+}
+
+/* Fixed footer styling */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #007BFF;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  z-index: 1000;
+}
+/* Make the form card wider or fill the container */
+.form-card {
+  max-width: 700px; /* adjust as needed */
+  margin: 0 auto;
+}
+
+/* Ensure the label and input in form-group fill the width */
+.form-group {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  display: block;
+}
+
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 1rem;
+}
+
+/* Match the button width to the input's width */
+#submitButton {
+  display: block; 
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submitButton:hover {
+  background-color: #0056b3;
+}
+
+/* Spinner inside the button */
+.button-spinner {
+  border: 2px solid #fff;
+  border-top: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
