@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Generator</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <header>
+    <div class="container header-container">
+      <h1>Video Generator</h1>
+      <nav>
+        <a href="/">Generate Video</a>
+        <a href="/videos">View Videos</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    {% block content %}
+    {% endblock %}
+  </main>
+  <footer>
+    <div class="container">
+      <p>© 2025 Video Generator. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card form-card" id="formContainer">
+  <h2>Generate a New Video</h2>
+  {% if error %}
+    <div class="error-message">{{ error }}</div>
+  {% endif %}
+  <form method="post" action="/generate" id="generateForm">
+    <div class="form-group">
+      <label for="prompt">Enter your prompt:</label>
+      <input type="text" id="prompt" name="prompt" placeholder="Type your prompt here" required>
+    </div>
+    <button type="submit" id="submitButton">
+      <span id="buttonText">Generate Video</span>
+      <span id="buttonSpinner" class="button-spinner" style="display:none;"></span>
+    </button>
+  </form>
+</div>
+
+<script>
+  // Poll /in_progress to decide whether to enable/disable the button
+  async function updateButtonState() {
+    try {
+      const resp = await fetch("/in_progress");
+      const data = await resp.json();
+      const submitButton = document.getElementById("submitButton");
+      const buttonText = document.getElementById("buttonText");
+      const buttonSpinner = document.getElementById("buttonSpinner");
+      if (data.in_progress) {
+        // If a video is in progress, disable the button and show spinner.
+        submitButton.disabled = true;
+        buttonText.style.display = "none";
+        buttonSpinner.style.display = "inline-block";
+      } else {
+        // Otherwise, enable the button and hide spinner.
+        submitButton.disabled = false;
+        buttonText.style.display = "inline";
+        buttonSpinner.style.display = "none";
+      }
+    } catch(e) {
+      console.log("Error fetching in_progress status:", e);
+    }
+  }
+
+  // Poll every 3 seconds
+  setInterval(updateButtonState, 3000);
+  // Run immediately on page load
+  updateButtonState();
+
+  // When the form is submitted, immediately disable the button and show spinner.
+  document.getElementById("generateForm").addEventListener("submit", function(){
+    const submitButton = document.getElementById("submitButton");
+    const buttonText = document.getElementById("buttonText");
+    const buttonSpinner = document.getElementById("buttonSpinner");
+    submitButton.disabled = true;
+    buttonText.style.display = "none";
+    buttonSpinner.style.display = "inline-block";
+  });
+</script>
+{% endblock %}

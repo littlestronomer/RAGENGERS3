@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card video-detail-card">
+  <div class="tab-buttons">
+    <button id="videoTab" class="tab-button active">Video</button>
+    <button id="quizTab" class="tab-button">Quiz</button>
+  </div>
+  
+  <div id="videoContent" class="tab-content">
+    <video width="100%" controls>
+      <source src="{{ video_path }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  
+  <div id="quizContent" class="tab-content" style="display: none;">
+    {% if quiz %}
+      {% for group, question in quiz.items() %}
+      <div class="quiz-question" data-group="{{ group }}" data-answer="{{ question['answer'] }}">
+        <p class="question-text">{{ question['question'] }}</p>
+        <div class="options">
+          {% set letters = ['a','b','c','d','e'] %}
+          {% for option in question['options'] %}
+            <button class="quiz-option" data-option="{{ option }}">
+              {{ letters[loop.index0] | upper }}. {{ option }}
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <p>No quiz available for this video.</p>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+// Cookie helper functions.
+function setCookie(name, value, days) {
+  var expires = "";
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
+function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+
+// Load saved quiz results from cookie and pre-populate answers.
+function loadQuizResults() {
+  const cookieVal = getCookie("quiz_results");
+  if (cookieVal) {
+    try {
+      const results = JSON.parse(cookieVal);
+      document.querySelectorAll(".quiz-question").forEach(questionElem => {
+        const group = questionElem.getAttribute("data-group");
+        if (results[group]) {
+          const savedAnswer = results[group];
+          const correctAnswer = questionElem.getAttribute("data-answer");
+          const options = questionElem.querySelectorAll(".quiz-option");
+          options.forEach(optionElem => {
+            optionElem.disabled = true;
+            const optVal = optionElem.getAttribute("data-option");
+            // Mark the selected answer:
+            if (optVal === savedAnswer) {
+              if (optVal === correctAnswer) {
+                optionElem.classList.add("correct");
+              } else {
+                optionElem.classList.add("wrong");
+              }
+            }
+            // Always highlight the correct answer.
+            if (optVal === correctAnswer) {
+              optionElem.classList.add("correct");
+            }
+          });
+        }
+      });
+    } catch (e) {
+      console.error("Error parsing quiz_results cookie:", e);
+    }
+  }
+}
+
+// Tab switching logic.
+const videoTab = document.getElementById("videoTab");
+const quizTab = document.getElementById("quizTab");
+const videoContent = document.getElementById("videoContent");
+const quizContent = document.getElementById("quizContent");
+
+videoTab.addEventListener("click", function() {
+  videoTab.classList.add("active");
+  quizTab.classList.remove("active");
+  videoContent.style.display = "block";
+  quizContent.style.display = "none";
+});
+
+quizTab.addEventListener("click", function() {
+  quizTab.classList.add("active");
+  videoTab.classList.remove("active");
+  quizContent.style.display = "block";
+  videoContent.style.display = "none";
+});
+
+// Quiz answer checking logic.
+document.querySelectorAll(".quiz-question").forEach(questionElem => {
+  const correctAnswer = questionElem.getAttribute("data-answer");
+  const options = questionElem.querySelectorAll(".quiz-option");
+  options.forEach(optionElem => {
+    optionElem.addEventListener("click", function() {
+      // Disable further clicks for this question.
+      options.forEach(opt => opt.disabled = true);
+      const selected = optionElem.getAttribute("data-option");
+      if(selected === correctAnswer) {
+        optionElem.classList.add("correct");
+      } else {
+        optionElem.classList.add("wrong");
+        // Highlight the correct option.
+        options.forEach(opt => {
+          if(opt.getAttribute("data-option") === correctAnswer) {
+            opt.classList.add("correct");
+          }
+        });
+      }
+      // Save the result in a cookie.
+      const group = questionElem.getAttribute("data-group");
+      let savedResults = {};
+      const cookieVal = getCookie("quiz_results");
+      if(cookieVal) {
+        try {
+          savedResults = JSON.parse(cookieVal);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      savedResults[group] = selected;
+      setCookie("quiz_results", JSON.stringify(savedResults), 7);
+    });
+  });
+});
+
+// On page load, load any saved quiz results.
+loadQuizResults();
+</script>
+{% endblock %}

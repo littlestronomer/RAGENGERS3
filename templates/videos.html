@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Saved Videos</h2>
+<ul class="video-list">
+  {% for video in videos %}
+  <li class="video-item">
+    <a href="/videos/{{ video.id }}">
+      {% if video.preview %}
+      <img src="{{ video.preview }}" alt="Preview" class="video-preview">
+      {% else %}
+      <div class="video-no-preview">No Preview</div>
+      {% endif %}
+      <div class="video-info">
+        <p>{{ video.prompt }}</p>
+      </div>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}
